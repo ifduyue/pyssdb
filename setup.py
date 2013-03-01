@@ -1,0 +1,28 @@
+from setuptools import setup
+import pyssdb
+import re
+import os
+import sys
+
+setup(
+    name = 'pyssdb',
+    version = pyssdb.__version__,
+    author = re.sub(r'\s+<.*', r'', pyssdb.__author__),
+    author_email = re.sub(r'(^.*<)|(>.*$)', r'', pyssdb.__author__),
+    url = pyssdb.__url__,
+    description = ('A SSDB Client Library for Python.'),
+    long_description = open('README.rst').read(),
+    license = 'BSD',
+    keywords = 'ssdb',
+    py_modules = ['pyssdb'],
+    classifiers = [
+        'Development Status :: 4 - Beta',
+        'Programming Language :: Python',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: POSIX',
+        'Operating System :: POSIX :: Linux',
+        'Topic :: Software Development :: Libraries :: Python Modules'
+    ],
+)
+
