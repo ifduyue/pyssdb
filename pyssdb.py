@@ -10,7 +10,7 @@ A SSDB Client Library for Python.
 :license: BSD 2-clause License, see LICENSE for more details.
 '''
 
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 __author__ = 'Yue Du <ifduyue@gmail.com>'
 __url__ = 'https://github.com/ifduyue/pyssdb'
 __license__ = 'BSD 2-Clause License'
@@ -92,6 +92,6 @@ if __name__ == '__main__':
     import string
     for i in string.ascii_letters:
         c.incr(i)
-    print c.keys('a', 'z', '10')
-    print c.keys('a', 'z', '100')
+    print c.keys('a', 'z', 1)
+    print c.keys('a', 'z', 10)
     print c.get('z')

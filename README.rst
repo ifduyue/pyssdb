@@ -23,8 +23,8 @@ Usage
     import string
     for i in string.ascii_letters:
         c.incr(i)
-    print c.keys('a', 'z', '10')
-    print c.keys('a', 'z', '100')
+    print c.keys('a', 'z', 1)
+    print c.keys('a', 'z', 10)
     print c.get('z')
 
 For the full list of SSDB commands, please check out `this wiki page <https://github.com/ideawu/ssdb/wiki/Commands>`_.
