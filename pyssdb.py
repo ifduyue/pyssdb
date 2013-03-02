@@ -51,9 +51,10 @@ class Client(object):
         args = (cmd, ) + args
         buf = ''.join('%d\n%s\n' % (len(i), i) for i in args) + '\n'
         self.socket.sendall(buf)
-        return self._recv()
+        return_list = 'keys' in cmd or 'scan' in cmd or 'list' in cmd
+        return self._recv(return_list)
 
-    def _recv(self):
+    def _recv(self, return_list=False):
         ret = []
         while True:
             line = self.fp.readline().rstrip('\n')
@@ -62,13 +63,16 @@ class Client(object):
             data = self.fp.read(int(line))
             self.fp.read(1) # discard '\n'
             ret.append(data)
+        if ret[0] == 'not_found':
+            return None
         if ret[0] == 'ok':
             ret = ret[1:]
+            if return_list:
+                return ret
             if not ret:
-                return
+                return None
             if len(ret) == 1:
                 return ret[0]
-            return ret
         raise error(*ret)
 
     def __getattr__(self, cmd):
