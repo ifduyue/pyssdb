@@ -49,6 +49,8 @@ class Client(object):
         if cmd == 'delete':
             cmd = 'del'
         args = (cmd, ) + args
+        if isinstance(args[-1], int):
+            args = args[:-1] + (str(args[-1]), )
         buf = ''.join('%d\n%s\n' % (len(i), i) for i in args) + '\n'
         self.socket.sendall(buf)
         return_list = 'keys' in cmd or 'scan' in cmd or 'list' in cmd
