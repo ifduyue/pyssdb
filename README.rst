@@ -3,7 +3,7 @@ pyssdb
 
 Description
 -----------
-A SSDB Client Library for Python.
+A thread-safe SSDB Client Library for Python.
 
 Installation
 -------------
