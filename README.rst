@@ -24,16 +24,28 @@ Usage
 
 Here is a short example::
 
-    import pyssdb
-    c = pyssdb.Client()
-    print c.set('key', 'value')
-    print c.get('key')
-    import string
-    for i in string.ascii_letters:
-        c.incr(i)
-    print c.keys('a', 'z', 1)
-    print c.keys('a', 'z', 10)
-    print c.get('z')
+    >>> import pyssdb
+    >>> c = pyssdb.Client()
+    >>> c.set('key', 'value')
+    '1'
+    >>> c.get('key')
+    'value'
+    >>> c.hset('hash', 'item', 'value')
+    '1'
+    >>> c.hget('hash', 'item')
+    'value'
+    >>> c.hget('hash', 'not exist') is None
+    True
+    >>> c.incr('counter')
+    '1'
+    >>> c.incr('counter')
+    '2'
+    >>> c.incr('counter')
+    '3'
+    >>> c.keys('a', 'z', 1)
+    ['counter']
+    >>> c.keys('a', 'z', 10)
+    ['counter', 'key']
 
 For the full list of SSDB commands, check out
 `this wiki page <https://github.com/ideawu/ssdb/wiki/Commands>`_.
