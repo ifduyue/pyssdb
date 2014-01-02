@@ -36,21 +36,21 @@ Here is a short example::
     >>> import pyssdb
     >>> c = pyssdb.Client()
     >>> c.set('key', 'value')
-    '1'
+    1
     >>> c.get('key')
     'value'
     >>> c.hset('hash', 'item', 'value')
-    '1'
+    1
     >>> c.hget('hash', 'item')
     'value'
     >>> c.hget('hash', 'not exist') is None
     True
     >>> c.incr('counter')
-    '1'
+    1
     >>> c.incr('counter')
-    '2'
+    2
     >>> c.incr('counter')
-    '3'
+    3
     >>> c.keys('a', 'z', 1)
     ['counter']
     >>> c.keys('a', 'z', 10)

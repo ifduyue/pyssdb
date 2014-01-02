@@ -32,7 +32,7 @@ Basic Operation
 Now that we have a connection set up, we can set items:
 
     >>> ssdb.set('hey!', 'Whoa!')
-    '1'
+    1
 
 Or we can get items:
 
@@ -43,6 +43,7 @@ We can also set items with TTL (time to live), TTL determines how long, in
 seconds, a item will exist:
 
     >>> ssdb.setx('1 second life', 'God, it\'s short!', 1)
+    True
 
 If we get this item after one second, we will get ``None``:
 
