@@ -1,0 +1,22 @@
+language: python
+
+python:
+    - "2.6"
+    - "2.7"
+
+env:
+    global:
+        - SSDB=./ssdb-server
+
+install:
+    - wget https://github.com/ideawu/ssdb/archive/stable-1.6.7.zip
+    - unzip stable-1.6.7.zip
+    - make -C ssdb-stable-1.6.7
+    - mv ssdb-stable-1.6.7/{ssdb-server,ssdb.conf} ./
+
+script: nosetests -c setup.cfg
+
+branches:
+    only:
+        - master
+        - wip-travisci

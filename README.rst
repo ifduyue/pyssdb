@@ -1,6 +1,15 @@
 pyssdb
 ========
 
+.. image:: https://travis-ci.org/ifduyue/pyssdb.png
+    :target: https://travis-ci.org/ifduyue/pyssdb
+
+.. image:: https://badge.fury.io/py/pyssdb.png
+    :target: http://badge.fury.io/py/pyssdb
+
+.. image:: https://pypip.in/d/pyssdb/badge.png
+        :target: https://crate.io/packages/pyssdb/
+
 pyssdb is a SSDB_ Client Library for Python. SSDB_ is a high
 performace key-value(key-string, key-zset, key-hashmap) NoSQL database,
 using Google LevelDB as storage engine.
@@ -47,7 +56,10 @@ Here is a short example::
     >>> c.keys('a', 'z', 10)
     ['counter', 'key']
 
-For the full list of SSDB commands, check out
+For more information, see `the tutorial <TUTORIAL.rst>`_, which will explain
+most everything.
+
+For the full list of SSDB commands, see
 `this wiki page <https://github.com/ideawu/ssdb/wiki/Commands>`_.
 
 License
