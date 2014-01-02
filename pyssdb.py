@@ -26,6 +26,7 @@ class error(Exception):
         self.reason = reason
         self.message = ' '.join(args)
 
+
 class Connection(object):
     def __init__(self, host='127.0.0.1', port=8888, socket_timeout=None):
         self.pid = os.getpid()
@@ -63,17 +64,19 @@ class Connection(object):
         self.connect()
 
     def send(self, cmd, *args):
-        if self._sock is None:
-            self.connect()
         if cmd == 'delete':
             cmd = 'del'
+        self.last_cmd = cmd
+        if self._sock is None:
+            self.connect()
         args = (cmd, ) + args
         if isinstance(args[-1], int):
             args = args[:-1] + (str(args[-1]), )
         buf = ''.join('%d\n%s\n' % (len(i), i) for i in args) + '\n'
         self._sock.sendall(buf)
 
-    def recv(self, return_list=False):
+    def recv(self):
+        cmd = self.last_cmd
         ret = []
         while True:
             line = self._fp.readline().rstrip('\n')
@@ -82,16 +85,27 @@ class Connection(object):
             data = self._fp.read(int(line))
             self._fp.read(1) # discard '\n'
             ret.append(data)
-        if ret[0] == 'not_found':
+
+        st, ret = ret[0], ret[1:]
+
+        if st == 'not_found':
             return None
-        if ret[0] == 'ok':
-            ret = ret[1:]
-            if return_list:
+        elif st == 'ok':
+            if cmd.endswith('keys') or cmd.endswith('list') or \
+                    cmd.endswith('scan') or cmd.endswith('range') or \
+                    (cmd.startswith('multi_') and cmd.endswith('get')):
                 return ret
-            if not ret:
-                return None
-            if len(ret) == 1:
-                return ret[0]
+            elif len(ret) == 1:
+                if cmd.endswith('set') or cmd.endswith('del') or \
+                        cmd.endswith('incr') or cmd.endswith('decr') or \
+                        cmd.endswith('size') or cmd.endswith('rank') or \
+                        cmd == 'setx':
+                    return int(ret[0])
+                else:
+                    return ret[0]
+            elif not ret:
+                return True
+
         raise error(*ret)
 
 
@@ -151,7 +165,7 @@ class Client(object):
         connection = self.connection_pool.get_connection()
         try:
             connection.send(cmd, *args)
-            return connection.recv('keys' in cmd or 'scan' in cmd or 'list' in cmd)
+            return connection.recv()
         finally:
             self.connection_pool.release(connection)
 
@@ -171,13 +185,13 @@ class Client(object):
 
 if __name__ == '__main__':
     c = Client()
-    print c.set('key', 'value')
-    print c.get('key')
+    print(c.set('key', 'value'))
+    print(c.get('key'))
     import string
     for i in string.ascii_letters:
         c.incr(i)
-    print c.keys('a', 'z', 1)
-    print c.keys('a', 'z', 10)
-    print c.get('z')
+    print(c.keys('a', 'z', 1))
+    print(c.keys('a', 'z', 10))
+    print(c.get('z'))
+    print(c.get('a'))
     c.disconnect()
-
