@@ -40,7 +40,7 @@ Or we can get items:
     'Whoa!'
 
 We can also set items with TTL (time to live), TTL determines how long, in
-seconds, a item will exist:
+seconds, an item will exist:
 
     >>> ssdb.setx('1 second life', 'God, it\'s short!', 1)
     True
