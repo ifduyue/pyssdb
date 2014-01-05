@@ -68,3 +68,9 @@ License
 Copyright (C) 2013-2014 Yue Du, Licensed under
 `the 2-clause BSD license <http://opensource.org/licenses/BSD-2-Clause>`_.
 
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/ifduyue/pyssdb/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
