@@ -43,7 +43,7 @@ We can also set items with TTL (time to live), TTL determines how long, in
 seconds, an item will exist:
 
     >>> ssdb.setx('1 second life', 'God, it\'s short!', 1)
-    True
+    1
 
 If we get this item after one second, we will get ``None``:
 
