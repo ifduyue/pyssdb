@@ -9,10 +9,10 @@ env:
         - SSDB=./ssdb-server
 
 install:
-    - wget https://github.com/ideawu/ssdb/archive/stable-1.6.7.zip
-    - unzip stable-1.6.7.zip
-    - make -C ssdb-stable-1.6.7
-    - mv ssdb-stable-1.6.7/{ssdb-server,ssdb.conf} ./
+    - wget https://github.com/ideawu/ssdb/archive/master.zip
+    - unzip master
+    - make -C ssdb-master
+    - mv ssdb-master/{ssdb-server,ssdb.conf} ./
 
 script: nosetests -c setup.cfg
 
