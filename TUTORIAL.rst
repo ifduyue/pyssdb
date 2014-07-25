@@ -48,7 +48,7 @@ seconds, an item will exist:
 If we get this item after one second, we will get ``None``:
 
     >>> import time
-    >>> time.sleep(1)
-    >>> ssdb.get('1 second life') is None
-    True
+    >>> time.sleep(2)
+    >>> ssdb.get('1 second life')
+    None
 
