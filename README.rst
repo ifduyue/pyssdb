@@ -60,7 +60,7 @@ For more information, see `the tutorial <TUTORIAL.rst>`_, which will explain
 most everything.
 
 For the full list of SSDB commands, see
-`this wiki page <https://github.com/ideawu/ssdb/wiki/Commands>`_.
+`this page <http://ssdb.io/docs/php/>`_.
 
 License
 ----------
