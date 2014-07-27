@@ -1,5 +1,5 @@
 pyssdb
-========
+======
 
 .. image:: https://travis-ci.org/ifduyue/pyssdb.png
     :target: https://travis-ci.org/ifduyue/pyssdb
