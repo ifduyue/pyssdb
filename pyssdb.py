@@ -182,12 +182,10 @@ class Client(object):
     close = disconnect
 
     def __getattr__(self, cmd):
-        if cmd in self.__dict__:
-            return self.__dict__[cmd]
-        elif cmd in self.__class__.__dict__:
-            return self.__class__.__dict__[cmd]
-        ret = self.__dict__[cmd] = functools.partial(self.execute_command, cmd)
-        return ret
+        if cmd not in self.__dict__:
+            self.__dict__[cmd] = functools.partial(self.execute_command, cmd)
+
+        return self.__dict__[cmd]
 
 
 if __name__ == '__main__':
