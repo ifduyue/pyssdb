@@ -20,6 +20,7 @@ import socket
 import functools
 import itertools
 
+
 class error(Exception):
     def __init__(self, reason, *args):
         super(error, self).__init__(reason, *args)
@@ -83,7 +84,7 @@ class Connection(object):
             if not line:
                 break
             data = self._fp.read(int(line))
-            self._fp.read(1) # discard '\n'
+            self._fp.read(1)  # discard '\n'
             ret.append(data)
 
         st, ret = ret[0], ret[1:]
@@ -110,19 +111,21 @@ class Connection(object):
 
 
 class ConnectionPool(object):
-    def __init__(self, connection_class=Connection, max_connections=1048576, **connection_kwargs):
+    def __init__(self, connection_class=Connection, max_connections=1048576,
+                 **connection_kwargs):
         self.pid = os.getpid()
         self.connection_class = connection_class
         self.connection_kwargs = connection_kwargs
         self.max_connections = max_connections
         self.idle_connections = []
         self.active_connections = set()
-    
+
     def checkpid(self):
         if self.pid != os.getpid():
             self.disconnect()
-            self.__init__(self.connection_class, self.max_connections, **self.connection_kwargs)
-    
+            self.__init__(self.connection_class, self.max_connections,
+                          **self.connection_kwargs)
+
     def get_connection(self):
         self.checkpid()
         try:
@@ -131,31 +134,35 @@ class ConnectionPool(object):
             connection = self.new_connection()
         self.active_connections.add(connection)
         return connection
-    
+
     def new_connection(self):
-        if len(self.active_connections) + len(self.idle_connections) > self.max_connections:
+        count = len(self.active_connections) + len(self.idle_connections)
+        if count > self.max_connections:
             raise error("Too many connections")
         return self.connection_class(**self.connection_kwargs)
-    
+
     def release(self, connection):
         self.checkpid()
         if connection.pid == self.pid:
             self.active_connections.remove(connection)
             self.idle_connections.append(connection)
-    
+
     def disconnect(self):
-        active_connections, self.active_connections = self.active_connections, set()
-        idle_connections, self.idle_connections = self.idle_connections, []
-        for connection in itertools.chain(active_connections, idle_connections):
+        acs, self.active_connections = self.active_connections, set()
+        ics, self.idle_connections = self.idle_connections, []
+        for connection in itertools.chain(acs, ics):
             connection.disconnect()
 
     close = disconnect
 
 
 class Client(object):
-    def __init__(self, host='127.0.0.1', port=8888, connection_pool=None, socket_timeout=None, max_connections=1048576):
+    def __init__(self, host='127.0.0.1', port=8888, connection_pool=None,
+                 socket_timeout=None, max_connections=1048576):
         if not connection_pool:
-            connection_pool = ConnectionPool(host=host, port=port, socket_timeout=socket_timeout, max_connections=max_connections)
+            connection_pool = ConnectionPool(host=host, port=port,
+                                             socket_timeout=socket_timeout,
+                                             max_connections=max_connections)
         self.connection_pool = connection_pool
         connection = self.connection_pool.new_connection()
         connection.connect()
