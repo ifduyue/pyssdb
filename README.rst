@@ -10,7 +10,7 @@ pyssdb
 .. image:: https://pypip.in/d/pyssdb/badge.png
         :target: https://crate.io/packages/pyssdb/
 
-pyssdb is a SSDB_ Client Library for Python. SSDB_ is a high
+pyssdb is an SSDB_ Client Library for Python. SSDB_ is a high
 performace key-value(key-string, key-zset, key-hashmap) NoSQL database,
 using Google LevelDB as storage engine.
 
