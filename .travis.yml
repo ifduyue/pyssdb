@@ -15,7 +15,3 @@ install:
     - mv ssdb-master/{ssdb-server,ssdb.conf} ./
 
 script: nosetests -c setup.cfg
-
-branches:
-    only:
-        - master

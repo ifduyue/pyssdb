@@ -18,5 +18,6 @@ def setup(module):
 
 def teardown(module):
     os.kill(module._SSDB_PID, signal.SIGTERM)
+    time.sleep(0.5)
     rmdir_var()
     time.sleep(1)
