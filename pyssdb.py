@@ -172,9 +172,13 @@ class Client(object):
         connection = self.connection_pool.get_connection()
         try:
             connection.send(cmd, *args)
-            return connection.recv()
-        finally:
+            data = connection.recv()
+        except:
+            connection.close()
+            raise
+        else:
             self.connection_pool.release(connection)
+            return data
 
     def disconnect(self):
         self.connection_pool.disconnect()
