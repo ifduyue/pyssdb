@@ -31,7 +31,9 @@ Installation
 Usage
 ------------
 
-Here is a short example::
+Here is a short example:
+
+.. code-block:: python
 
     >>> import pyssdb
     >>> c = pyssdb.Client()
