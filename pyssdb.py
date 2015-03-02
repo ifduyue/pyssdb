@@ -107,7 +107,10 @@ class Connection(object):
             elif not ret:
                 return True
 
-        raise error(*ret)
+        if ret:
+            raise error(*ret)
+        else:
+            raise error('error')
 
 
 class ConnectionPool(object):
