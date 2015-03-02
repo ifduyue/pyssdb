@@ -100,7 +100,7 @@ class Connection(object):
                 if cmd.endswith('set') or cmd.endswith('del') or \
                         cmd.endswith('incr') or cmd.endswith('decr') or \
                         cmd.endswith('size') or cmd.endswith('rank') or \
-                        cmd == 'setx':
+                        cmd == 'setx' or cmd == 'zget':
                     return int(ret[0])
                 else:
                     return ret[0]
