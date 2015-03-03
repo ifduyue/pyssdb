@@ -10,7 +10,7 @@ A SSDB Client Library for Python.
 :license: BSD 2-clause License, see LICENSE for more details.
 '''
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 __author__ = 'Yue Du <ifduyue@gmail.com>'
 __url__ = 'https://github.com/ifduyue/pyssdb'
 __license__ = 'BSD 2-Clause License'
