@@ -176,8 +176,8 @@ class Client(object):
         connection = self.connection_pool.get_connection()
         try:
             new_args = []
-            for i in range(len(args)):
-                new_args.append(args[i].encode('utf-8'))
+            for arg in args:
+                new_args.append(arg.encode('utf-8'))
             connection.send(cmd, *new_args)
             data = connection.recv()
         except:
