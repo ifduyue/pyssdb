@@ -175,7 +175,10 @@ class Client(object):
     def execute_command(self, cmd, *args):
         connection = self.connection_pool.get_connection()
         try:
-            connection.send(cmd, *args)
+            new_args = []
+            for i in range(len(args)):
+                new_args.append(args[i].encode('utf-8'))
+            connection.send(cmd, *new_args)
             data = connection.recv()
         except:
             connection.close()
