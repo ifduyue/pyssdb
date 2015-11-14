@@ -89,6 +89,8 @@ class Connection(object):
 
         st, ret = ret[0], ret[1:]
 
+        if cmd == 'info':
+            return ret[1]
         if st == 'not_found':
             return None
         elif st == 'ok':
