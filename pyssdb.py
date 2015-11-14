@@ -10,15 +10,20 @@ A SSDB Client Library for Python.
 :license: BSD 2-clause License, see LICENSE for more details.
 '''
 
+import os
+import socket
+import functools
+import itertools
+
+
 __version__ = '0.1.2'
 __author__ = 'Yue Du <ifduyue@gmail.com>'
 __url__ = 'https://github.com/ifduyue/pyssdb'
 __license__ = 'BSD 2-Clause License'
 
-import os
-import socket
-import functools
-import itertools
+
+def utf8(s):
+    return s.encode('utf8') if isinstance(s, unicode) else s
 
 
 class error(Exception):
@@ -177,15 +182,7 @@ class Client(object):
     def execute_command(self, cmd, *args):
         connection = self.connection_pool.get_connection()
         try:
-            new_args = []
-            for arg in args:
-                if isinstance(arg, unicode):
-                    new_args.append(arg.encode('utf-8'))
-                elif isinstance(arg, str):
-                    new_args.append(unicode(arg, 'utf-8').encode('utf-8'))
-                else:
-                    new_args.append(arg)
-            connection.send(cmd, *new_args)
+            connection.send(cmd, *(utf8(i) for i in args))
             data = connection.recv()
         except:
             connection.close()
