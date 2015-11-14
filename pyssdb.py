@@ -89,6 +89,8 @@ class Connection(object):
 
         st, ret = ret[0], ret[1:]
 
+        if cmd == 'info':
+            return ret[1]
         if st == 'not_found':
             return None
         elif st == 'ok':
@@ -177,8 +179,10 @@ class Client(object):
         try:
             new_args = []
             for arg in args:
-                if isinstance(arg, str) or isinstance(arg, unicode):
+                if isinstance(arg, unicode):
                     new_args.append(arg.encode('utf-8'))
+                elif isinstance(arg, str):
+                    new_args.append(unicode(arg, 'utf-8').encode('utf-8'))
                 else:
                     new_args.append(arg)
             connection.send(cmd, *new_args)
