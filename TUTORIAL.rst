@@ -17,8 +17,8 @@ Besides having pyssdb installed, simply run ``pip install pyssdb``.
 To use pyssdb we have to import the library and set up a connection to a ssdb
 server:
 
-    >>> import pyssdb
-    >>> ssdb = pyssdb.Client(host='127.0.0.1', port=8888)
+  >>> import pyssdb
+  >>> ssdb = pyssdb.Client(host='127.0.0.1', port=8888)
 
 If we leave out the ``host`` and ``port`` parameters, ``'127.0.0.1'`` and
 ``8888`` would be used as defaults. There is also a ``socket_timeout``
@@ -31,24 +31,24 @@ Basic Operation
 
 Now that we have a connection set up, we can set items:
 
-    >>> ssdb.set('hey!', 'Whoa!')
-    1
+  >>> ssdb.set('hey!', 'Whoa!')
+  1
 
 Or we can get items:
 
-    >>> ssdb.get('hey!')
-    'Whoa!'
+  >>> ssdb.get('hey!')
+  'Whoa!'
 
 We can also set items with TTL (time to live), TTL determines how long, in
 seconds, an item will exist:
 
-    >>> ssdb.setx('1 second life', 'God, it\'s short!', 1)
-    1
+  >>> ssdb.setx('1 second life', 'God, it\'s short!', 1)
+  1
 
 If we get this item after one second, we will get ``None``:
 
-    >>> import time
-    >>> time.sleep(2)
-    >>> ssdb.get('1 second life') is None
-    True
+  >>> import time
+  >>> time.sleep(2)
+  >>> ssdb.get('1 second life') is None
+  True
 

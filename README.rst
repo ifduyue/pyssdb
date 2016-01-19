@@ -23,9 +23,11 @@ using Google LevelDB as storage engine.
 
 Installation
 -------------
-::
 
-    $ pip install pyssdb --upgrade
+
+.. code-block:: bash
+
+   pip install --upgrade pyssdb
 
 
 Usage
@@ -35,28 +37,28 @@ Here is a short example:
 
 .. code-block:: python
 
-    >>> import pyssdb
-    >>> c = pyssdb.Client()
-    >>> c.set('key', 'value')
-    1
-    >>> c.get('key')
-    'value'
-    >>> c.hset('hash', 'item', 'value')
-    1
-    >>> c.hget('hash', 'item')
-    'value'
-    >>> c.hget('hash', 'not exist') is None
-    True
-    >>> c.incr('counter')
-    1
-    >>> c.incr('counter')
-    2
-    >>> c.incr('counter')
-    3
-    >>> c.keys('a', 'z', 1)
-    ['counter']
-    >>> c.keys('a', 'z', 10)
-    ['counter', 'key']
+   >>> import pyssdb
+   >>> c = pyssdb.Client()
+   >>> c.set('key', 'value')
+   1
+   >>> c.get('key')
+   'value'
+   >>> c.hset('hash', 'item', 'value')
+   1
+   >>> c.hget('hash', 'item')
+   'value'
+   >>> c.hget('hash', 'not exist') is None
+   True
+   >>> c.incr('counter')
+   1
+   >>> c.incr('counter')
+   2
+   >>> c.incr('counter')
+   3
+   >>> c.keys('a', 'z', 1)
+   ['counter']
+   >>> c.keys('a', 'z', 10)
+   ['counter', 'key']
 
 For more information, see `the tutorial <TUTORIAL.rst>`_, which will explain
 most everything.
