@@ -99,7 +99,7 @@ class Connection(object):
         if st == 'not_found':
             return None
         elif st == 'ok':
-            if cmd.endswith('keys') or cmd.endswith('list') or \
+            if cmd.endswith('keys') or cmd.endswith('hgetall') or cmd.endswith('list') or \
                     cmd.endswith('scan') or cmd.endswith('range') or \
                     (cmd.startswith('multi_') and cmd.endswith('get')) or \
                     cmd.endswith('getall'):
