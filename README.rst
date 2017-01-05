@@ -69,5 +69,5 @@ For the full list of SSDB commands, see
 License
 ----------
 
-Copyright (C) 2013-2014 Yue Du, Licensed under
+Copyright (C) 2013-2017 Yue Du, Licensed under
 `the 2-clause BSD license <http://opensource.org/licenses/BSD-2-Clause>`_.

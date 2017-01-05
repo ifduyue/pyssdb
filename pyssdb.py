@@ -11,16 +11,22 @@ A SSDB Client Library for Python.
 '''
 
 import os
+import sys
 import socket
 import functools
 import itertools
 
 
-__version__ = '0.1.2'
+__version__ = '0.2'
 __author__ = 'Yue Du <ifduyue@gmail.com>'
 __url__ = 'https://github.com/ifduyue/pyssdb'
 __license__ = 'BSD 2-Clause License'
 
+
+PY3 = sys.version_info >= (3,)
+
+if PY3:
+    unicode = str
 
 def utf8(s):
     return s.encode('utf8') if isinstance(s, unicode) else s
@@ -78,7 +84,7 @@ class Connection(object):
         args = (cmd, ) + args
         if isinstance(args[-1], int):
             args = args[:-1] + (str(args[-1]), )
-        buf = ''.join('%d\n%s\n' % (len(i), i) for i in args) + '\n'
+        buf = utf8('').join(utf8('%d\n%s\n') % (len(i), utf8(i)) for i in args) + utf8('\n')
         self._sock.sendall(buf)
 
     def recv(self):
@@ -182,7 +188,7 @@ class Client(object):
     def execute_command(self, cmd, *args):
         connection = self.connection_pool.get_connection()
         try:
-            connection.send(cmd, *(utf8(i) for i in args))
+            connection.send(cmd, *args)
             data = connection.recv()
         except:
             connection.close()
