@@ -6,10 +6,11 @@ pyssdb
 
 A SSDB Client Library for Python.
 
-:copyright: (c) 2013 by Yue Du.
+:copyright: (c) 2013-2017 by Yue Du.
 :license: BSD 2-clause License, see LICENSE for more details.
 '''
 
+from __future__ import print_function
 import os
 import sys
 import socket
@@ -17,7 +18,7 @@ import functools
 import itertools
 
 
-__version__ = '0.2'
+__version__ = '0.3'
 __author__ = 'Yue Du <ifduyue@gmail.com>'
 __url__ = 'https://github.com/ifduyue/pyssdb'
 __license__ = 'BSD 2-Clause License'
@@ -56,7 +57,7 @@ class Connection(object):
             sock.settimeout(self.socket_timeout)
             sock.connect((self.host, self.port))
             self._sock = sock
-            self._fp = sock.makefile('r')
+            self._fp = sock.makefile('rb')
         except socket.error:
             raise
 
@@ -81,17 +82,18 @@ class Connection(object):
         self.last_cmd = cmd
         if self._sock is None:
             self.connect()
-        args = (cmd, ) + args
+
+        args = [utf8(cmd)] + [utf8(i) for i in args]
         if isinstance(args[-1], int):
-            args = args[:-1] + (str(args[-1]), )
-        buf = utf8('').join(utf8('%d\n%s\n') % (len(i), utf8(i)) for i in args) + utf8('\n')
+            args[-1] = utf8(str(args[-1]))
+        buf = utf8('').join(utf8('%d\n%s\n') % (len(i), i) for i in args) + utf8('\n')
         self._sock.sendall(buf)
 
     def recv(self):
         cmd = self.last_cmd
         ret = []
         while True:
-            line = self._fp.readline().rstrip('\n')
+            line = self._fp.readline().rstrip(utf8('\n'))
             if not line:
                 break
             data = self._fp.read(int(line))
@@ -99,6 +101,7 @@ class Connection(object):
             ret.append(data)
 
         st, ret = ret[0], ret[1:]
+        st = st.decode('utf8')
 
         if cmd == 'info':
             return ret[1]
@@ -220,4 +223,6 @@ if __name__ == '__main__':
     print(c.keys('a', 'z', 10))
     print(c.get('z'))
     print(c.get('a'))
+    print(c.set('中文', '你好'))
+    print(c.get('中文'))
     c.disconnect()
