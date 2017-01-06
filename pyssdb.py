@@ -104,7 +104,7 @@ class Connection(object):
         st = st.decode('utf8')
 
         if cmd == 'info':
-            return ret[1]
+            return ret[1:]
         if st == 'not_found':
             return None
         elif st == 'ok':
