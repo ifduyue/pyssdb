@@ -18,7 +18,7 @@ import functools
 import itertools
 
 
-__version__ = '0.3'
+__version__ = '0.3.1'
 __author__ = 'Yue Du <ifduyue@gmail.com>'
 __url__ = 'https://github.com/ifduyue/pyssdb'
 __license__ = 'BSD 2-Clause License'
