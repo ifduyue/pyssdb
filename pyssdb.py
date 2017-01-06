@@ -99,7 +99,6 @@ class Connection(object):
             self._fp.read(1)  # discard '\n'
             ret.append(data)
 
-        print('ret:', ret)
         status, ret = ret[0], ret[1:]
         st = status.decode('utf8')
 
