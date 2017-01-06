@@ -30,6 +30,7 @@ if PY3:
     unicode = str
 
 def utf8(s):
+    s = str(s) if isinstance(s, int) else s
     return s.encode('utf8') if isinstance(s, unicode) else s
 
 
@@ -84,8 +85,6 @@ class Connection(object):
             self.connect()
 
         args = [utf8(cmd)] + [utf8(i) for i in args]
-        if isinstance(args[-1], int):
-            args[-1] = utf8(str(args[-1]))
         buf = utf8('').join(utf8('%d\n%s\n') % (len(i), i) for i in args) + utf8('\n')
         self._sock.sendall(buf)
 
@@ -100,11 +99,10 @@ class Connection(object):
             self._fp.read(1)  # discard '\n'
             ret.append(data)
 
-        st, ret = ret[0], ret[1:]
-        st = st.decode('utf8')
+        print('ret:', ret)
+        status, ret = ret[0], ret[1:]
+        st = status.decode('utf8')
 
-        if cmd == 'info':
-            return ret[1:]
         if st == 'not_found':
             return None
         elif st == 'ok':
@@ -113,6 +111,8 @@ class Connection(object):
                     (cmd.startswith('multi_') and cmd.endswith('get')) or \
                     cmd.endswith('getall'):
                 return ret
+            elif cmd == 'info':
+                return ret[1:]
             elif len(ret) == 1:
                 if cmd.endswith('set') or cmd.endswith('del') or \
                         cmd.endswith('incr') or cmd.endswith('decr') or \
@@ -123,11 +123,10 @@ class Connection(object):
                     return ret[0]
             elif not ret:
                 return True
+            else:
+                return ret
 
-        if ret:
-            raise error(*ret)
-        else:
-            raise error('error')
+        raise error(status, *ret)
 
 
 class ConnectionPool(object):
