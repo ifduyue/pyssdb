@@ -117,7 +117,7 @@ class Connection(object):
                 if cmd.endswith('set') or cmd.endswith('del') or \
                         cmd.endswith('incr') or cmd.endswith('decr') or \
                         cmd.endswith('size') or cmd.endswith('rank') or \
-                        cmd == 'setx' or cmd == 'zget':
+                        cmd in ('setx', 'zget', 'qtrim_front', 'qtrim_back'):
                     return int(ret[0])
                 else:
                     return ret[0]
