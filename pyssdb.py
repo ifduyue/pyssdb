@@ -33,6 +33,14 @@ def utf8(s):
     s = str(s) if isinstance(s, int) else s
     return s.encode('utf8') if isinstance(s, unicode) else s
 
+from itertools import izip_longest
+def grouper(iterable, n, fillvalue=None):
+    "Collect data into fixed-length chunks or blocks"
+    "Copy From itertools Recipes"
+    # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
+    args = [iter(iterable)] * n
+    return izip_longest(fillvalue=fillvalue, *args)
+
 
 class error(Exception):
     def __init__(self, reason, *args):
@@ -173,6 +181,18 @@ class ConnectionPool(object):
 
     close = disconnect
 
+def command_post_processing(func):
+
+    @functools.wraps(func)
+    def wrapper(self, cmd, *args):
+
+        data = func(self, cmd, *args)
+        if 'info' == cmd:
+            return dict(grouper(data, 2, None))
+        else:
+            return data
+
+    return wrapper
 
 class Client(object):
     def __init__(self, host='127.0.0.1', port=8888, connection_pool=None,
@@ -186,6 +206,7 @@ class Client(object):
         connection.connect()
         self.connection_pool.idle_connections.append(connection)
 
+    @command_post_processing
     def execute_command(self, cmd, *args):
         connection = self.connection_pool.get_connection()
         try:
