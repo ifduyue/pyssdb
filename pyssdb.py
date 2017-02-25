@@ -185,12 +185,10 @@ def command_post_processing(func):
 
     @functools.wraps(func)
     def wrapper(self, cmd, *args):
-        ##print(cmd)
 
         data = func(self, cmd, *args)
         if 'info' == cmd:
             return dict(grouper(data, 2, None))
-        ## elif 'blah' == cmd:
         else:
             return data
 
