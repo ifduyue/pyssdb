@@ -4,11 +4,17 @@ pyssdb
 .. image:: https://travis-ci.org/ifduyue/pyssdb.png
     :target: https://travis-ci.org/ifduyue/pyssdb
 
-.. image:: https://badge.fury.io/py/pyssdb.png
-    :target: http://badge.fury.io/py/pyssdb
+.. image:: https://img.shields.io/pypi/v/pyssdb.svg
+    :target: https://pypi.python.org/pypi/pyssdb
+    :alt: Latest Version
 
-.. image:: https://pypip.in/d/pyssdb/badge.png
-        :target: https://crate.io/packages/pyssdb/
+.. image:: https://img.shields.io/pypi/pyversions/pyssdb.svg
+    :target: https://pypi.python.org/pypi/pyssdb
+    :alt: Supported Python versions
+
+.. image:: https://img.shields.io/pypi/l/pyssdb.svg
+    :target: https://pypi.python.org/pypi/pyssdb
+    :alt: License
 
 pyssdb is an SSDB_ Client Library for Python. SSDB_ is a high
 performace key-value(key-string, key-zset, key-hashmap) NoSQL database,
