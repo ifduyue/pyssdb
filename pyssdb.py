@@ -28,18 +28,20 @@ PY3 = sys.version_info >= (3,)
 
 if PY3:
     unicode = str
+    from itertools import zip_longest
+else:
+    from itertools import izip_longest as zip_longest
 
 def utf8(s):
     s = str(s) if isinstance(s, int) else s
     return s.encode('utf8') if isinstance(s, unicode) else s
 
-from itertools import izip_longest
 def grouper(iterable, n, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
     "Copy From itertools Recipes"
     # grouper('ABCDEFG', 3, 'x') --> ABC DEF Gxx
     args = [iter(iterable)] * n
-    return izip_longest(fillvalue=fillvalue, *args)
+    return zip_longest(fillvalue=fillvalue, *args)
 
 
 class error(Exception):
@@ -244,4 +246,5 @@ if __name__ == '__main__':
     print(c.get('a'))
     print(c.set('中文', '你好'))
     print(c.get('中文'))
+    print(c.info())
     c.disconnect()
