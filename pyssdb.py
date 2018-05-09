@@ -32,9 +32,11 @@ if PY3:
 else:
     from itertools import izip_longest as zip_longest
 
+
 def utf8(s):
     s = str(s) if isinstance(s, int) else s
     return s.encode('utf8') if isinstance(s, unicode) else s
+
 
 def grouper(iterable, n, fillvalue=None):
     "Collect data into fixed-length chunks or blocks"
@@ -169,11 +171,15 @@ class ConnectionPool(object):
             raise error("Too many connections")
         return self.connection_class(**self.connection_kwargs)
 
-    def release(self, connection):
+    def release(self, connection, error=False):
         self.checkpid()
         if connection.pid == self.pid:
-            self.active_connections.remove(connection)
-            self.idle_connections.append(connection)
+            if not error:
+                self.active_connections.remove(connection)
+                self.idle_connections.append(connection)
+            else:
+                connection.close()
+                self.active_connections.remove(connection)
 
     def disconnect(self):
         acs, self.active_connections = self.active_connections, set()
@@ -182,6 +188,7 @@ class ConnectionPool(object):
             connection.disconnect()
 
     close = disconnect
+
 
 def command_post_processing(func):
 
@@ -195,6 +202,7 @@ def command_post_processing(func):
             return data
 
     return wrapper
+
 
 class Client(object):
     def __init__(self, host='127.0.0.1', port=8888, connection_pool=None,
@@ -214,9 +222,9 @@ class Client(object):
         try:
             connection.send(cmd, *args)
             data = connection.recv()
-        except:
-            connection.close()
-            raise
+        except Exception as e:
+            self.connection_pool.release(connection, error=True)
+            raise e
         else:
             self.connection_pool.release(connection)
             return data
