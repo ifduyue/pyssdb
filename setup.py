@@ -10,7 +10,7 @@ setup(
     author = re.sub(r'\s+<.*', r'', pyssdb.__author__),
     author_email = re.sub(r'(^.*<)|(>.*$)', r'', pyssdb.__author__),
     url = pyssdb.__url__,
-    description = ('A SSDB Client Library for Python.'),
+    description = ('An SSDB Client Library for Python.'),
     long_description = open('README.rst').read(),
     license = 'BSD',
     keywords = 'ssdb',
