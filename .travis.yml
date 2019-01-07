@@ -1,21 +1,22 @@
-language: python
-
-python:
-    - "2.7"
-    - "3.5"
-    - "3.6"
+matrix:
+  allow_failures:
+    - python: "3.8-dev"
+  include:
+    - python: "2.7"
+    - python: "3.5"
+    - python: "3.6"
     - python: "3.7"
       dist: xenial
-    - "3.8-dev"
+    - python: "3.8-dev"
 
 env:
-    global:
-        - SSDB=./ssdb-server
+  global:
+    - SSDB=./ssdb-server
 
 install:
-    - wget https://github.com/ideawu/ssdb/archive/master.zip
-    - unzip master
-    - make -C ssdb-master
-    - mv ssdb-master/{ssdb-server,ssdb.conf} ./
+  - wget https://github.com/ideawu/ssdb/archive/master.zip
+  - unzip master
+  - make -C ssdb-master
+  - mv ssdb-master/{ssdb-server,ssdb.conf} ./
 
 script: nosetests -c setup.cfg
