@@ -19,4 +19,4 @@ install:
   - make -C ssdb-master
   - mv ssdb-master/{ssdb-server,ssdb.conf} ./
 
-script: nosetests -c setup.cfg
+script: python setup.py test

@@ -15,6 +15,7 @@ setup(
     license = 'BSD',
     keywords = 'ssdb',
     py_modules = ['pyssdb'],
+    test_suite = 'tests',
     classifiers = [
         'Development Status :: 4 - Beta',
         'Programming Language :: Python',
