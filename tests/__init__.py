@@ -1,24 +1,29 @@
 import os, signal, time, shutil
+import unittest
+import pyssdb
 
-_SSDB_PID = None
 
-def mkdir_var():
-    if not os.path.isdir('var'):
-        os.mkdir('var')
+class TestCase(unittest.TestCase):
+    _SSDB_PID = None
 
-def rmdir_var():
-    if os.path.isdir('var'):
-        shutil.rmtree('var')
+    def _mkdir_var(self):
+        if not os.path.isdir('var'):
+            os.mkdir('var')
 
-def setUpModule():
-    global _SSDB_PID
-    mkdir_var()
-    ssdb = os.getenv('SSDB', 'ssdb-server')
-    _SSDB_PID = os.spawnlp(os.P_NOWAIT, ssdb, ssdb, 'ssdb.conf')
-    time.sleep(1)
+    def _rmdir_var(self):
+        if os.path.isdir('var'):
+            shutil.rmtree('var')
 
-def tearDownModule(module):
-    os.kill(_SSDB_PID, signal.SIGTERM)
-    time.sleep(0.5)
-    rmdir_var()
-    time.sleep(1)
+    def setUp(self):
+        self._mkdir_var()
+        ssdb = os.getenv('SSDB', 'ssdb-server')
+        self._SSDB_PID = os.spawnlp(os.P_NOWAIT, ssdb, ssdb, 'ssdb.conf')
+        time.sleep(1)
+        self.ssdb = pyssdb.Client()
+
+    def tearDown(self):
+        self.ssdb.disconnect()
+        os.kill(self._SSDB_PID, signal.SIGTERM)
+        time.sleep(0.5)
+        self._rmdir_var()
+        time.sleep(1)

@@ -1,13 +1,6 @@
-import unittest
+from . import TestCase
 
-class TestGetSet(unittest.TestCase):
-    def setUp(self):
-        import pyssdb
-        self.ssdb = pyssdb.Client()
-
-    def tearDown(self):
-        self.ssdb.disconnect()
-
+class TestGetSet(TestCase):
     def test_get(self):
         self.assertEqual(None, self.get('None')) 
 
