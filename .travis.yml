@@ -1,3 +1,5 @@
+language: python
+
 matrix:
   allow_failures:
     - python: "3.8-dev"
@@ -7,6 +9,7 @@ matrix:
     - python: "3.6"
     - python: "3.7"
       dist: xenial
+      sudo: required
     - python: "3.8-dev"
 
 env:
