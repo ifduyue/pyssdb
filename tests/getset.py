@@ -5,6 +5,6 @@ class TestGetSet(TestCase):
         self.assertEqual(None, self.ssdb.get('None')) 
 
     def test_set(self):
-        self.assertEqual(1, self.ssdb.set('set', 'set'))
-        self.assertEqual(1, self.ssdb.set('set', 'set'))
-        self.assertEqual('set', self.ssdb.get('set'))
+        self.assertEqual(1, self.ssdb.set(b'set', b'set'))
+        self.assertEqual(1, self.ssdb.set(b'set', b'set'))
+        self.assertEqual(b'set', self.ssdb.get('set'))
